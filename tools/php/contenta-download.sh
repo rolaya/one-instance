@@ -122,4 +122,4 @@ php -r "readfile('https://raw.githubusercontent.com/contentacms/contenta_jsonapi
 chmod a+x download-contentacms.sh
 
 # Perform contenta download (using just acquired "download.sh" script).
-./download-contentacms.sh $download_dir/contenta
+./download-contentacms.sh $download_dir
