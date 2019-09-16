@@ -22,18 +22,6 @@ check_package_requirement()
 # php and wget must be installed
 check_package_requirement "wget"
 
-#==================================================================================================================
-# Helper function - Displays script's supported flags.
-#==================================================================================================================
-show_help()
-{
-  echo "Supported flags:"
-  echo "   Flag           Function"
-  echo "   -h --help      Displays this help"
-  echo "   -v --verbose   Enables verbose mode output"
-}
-
-
 # Installs:
 # ca-certificates: Certificate authorities (used for SSL connections authentication)
 # apt-transport-https: Enables the usage of 'deb https://foo distro main' lines
@@ -48,5 +36,5 @@ sudo wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gp
 # The apt applicaiton will use this source to provide php 7.3 packages, etc.
 sudo echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php7.3.list
 
-# Install main php7.3 and common extensions.
-sudo apt-get install php7.3 php7.3-cli php7.3-common php7.3-opcache php7.3-curl php7.3-mbstring php7.3-mysql php7.3-zip php7.3-xml
+# Install main php7.3 and common extensions (and extensions required for drupal/contenta).
+sudo apt-get install php7.3 php7.3-cli php7.3-common php7.3-opcache php7.3-curl php7.3-mbstring php7.3-mysql php7.3-zip php7.3-xml php7.3-gd
