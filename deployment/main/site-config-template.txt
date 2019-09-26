@@ -1,0 +1,9 @@
+# Apache sites-available configuration
+DocumentRoot=document_root
+ServerName=server_name
+ServerAlias=server_alias
+SiteDirectory=site_directory
+# MariaDB and contenta configuration
+SiteName=site_name
+DatabaseName=database_name
+DatabaseUser=database_user
