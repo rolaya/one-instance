@@ -54,7 +54,7 @@ file_show_key_value_pairs()
   IFS="="
 
   #echo "$file_info_msg [$file_name]"
-  echo_message $msg_type_section "$file_info_msg [$file_name]"
+  echo_message $msg_style_section "$file_info_msg [$file_name]"
 
   # Process all non-comment lines
   grep -v '^#' $file_name | while read f1 f2

@@ -2,7 +2,11 @@
 
 # "Include" scripts which contain (common) functions we are going to use
 . $PWD/site-config.sh
+. $PWD/../common/user_io/user_io.sh
+. $PWD/../common/file_io/file_io.sh
 . $PWD/../common/messaging/message.sh
+. $PWD/../common/infrastructure/package/package-management.sh
+. $PWD/../php/contenta-download.sh
 
 #==================================================================================================================
 # Helper function - Displays script's supported flags.
@@ -68,38 +72,52 @@ while [ -n "$1" ]; do
   esac
 done
 
+# Gererating drupal/contenta site configuration....
+echo_message $msg_style_block "Generating contenta site configuration information..."
+
 # Used configuration file for deployment (instead of interactive)
 if [ $use_config_file = false ]; then
   # Collect drupal/contenta site information. The information acquired from the user and the running system
   # is written to a number of configuration files which the deployment process/scripts utilize.
-  sh ./collect-site-information.sh
+  collect_site_information
 else
-  echo_message $msg_type_error "File driven deployment not supported (yet)!"
+  echo_message $msg_style_error "File driven deployment not supported (yet)!"
   exit 1
 fi
 
-# Get (user defined) directory for drupal/contenta site
+# Get site directory
 get_site_config_value SiteDirectory
 
-# Get (user defined) directory for drupal/contenta site
+# Get database name
 get_site_config_value DatabaseName
 
-# Get (user defined) directory for drupal/contenta site
+# Get database user
 get_site_config_value DatabaseUser
 
+# rolaya: the site directoty is created by the contenta download process... check here if it already exists
 # Check if directory exists
-if [ -d "$SiteDirectory" ]; then
-  echo "Warning, directory: [$SiteDirectory] already exists"
-else
-  echo "Creating directory: [$SiteDirectory]..."
-  mkdir -p $SiteDirectory
-fi
+#if [ -d "$SiteDirectory" ]; then
+#  echo "Warning, directory: [$SiteDirectory] already exists"
+#else
+#  echo "Creating directory: [$SiteDirectory]..."
+#  mkdir -p $SiteDirectory
+#fi
+
+# Get database user
+get_site_config_value SiteDirectory
 
 # Create mariadb database and database user.
-echo_message $msg_type_section "Creating MariaDB database [$DatabaseName] and database user: [$DatabaseUser]..."
+echo_message $msg_style_section "Creating MariaDB database [$DatabaseName] and database user: [$DatabaseUser]..."
 
 # Create site database (and grant user permissions to database) rolaya: need to check result of this operation...
 python $HOME/proj/www/Drupal/one-instance/tools/mariadb/init-database-for-contenta-deployment.py -d $DatabaseName -u $DatabaseUser
+
+# Download contenta
+download_contenta -d $SiteDirectory
+
+# Now copy the .env and .env.local configuration files we have generated in the background to the "final" location
+# required by the contenta install.
+deploy_contenta_installation_configuration
 
 # Generate apache2 site configuration and deploy file to /etc/apache2/sites-available/
 #cd ../apache2

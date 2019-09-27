@@ -13,19 +13,18 @@ TEXT_VIEW_ITALIC_BLUE="\e[3m\e[34m"
 TEXT_VIEW_ITALIC_BOLD_GREEN="\e[3m\e[1m\e[32m"
 TEXT_VIEW_ITALIC_BOLD_BLUE="\e[3m\e[1m\e[34m"
 
-# Possible message types
-msg_type_default="0"
-msg_type_block="1"
-msg_type_section="2"
-msg_type_warning="3"
-msg_type_error="4"
-msg_type_fatal="5"
-
+# Possible message "styles"
+msg_style_default="0"
+msg_style_block="1"
+msg_style_section="2"
+msg_style_warning="3"
+msg_style_error="4"
+msg_style_critical="5"
 
 #==================================================================================================================
 # Echo ("specially formatted") message.
 #==================================================================================================================
-echo_message_type_default()
+echo_message_style_default()
 {
   echo "$1"
 }
@@ -33,7 +32,7 @@ echo_message_type_default()
 #==================================================================================================================
 # Echo ("specially formatted") message.
 #==================================================================================================================
-echo_message_type_block()
+echo_message_style_block()
 {
   echo ""
   echo "${TEXT_VIEW_NORMAL_RED}=====================================================================================================================================================${TEXT_VIEW_NORMAL}"
@@ -45,7 +44,7 @@ echo_message_type_block()
 #==================================================================================================================
 # Echo ("specially formatted") message.
 #==================================================================================================================
-echo_message_type_section()
+echo_message_style_section()
 {
   echo "${TEXT_VIEW_NORMAL_BLUE}$1${TEXT_VIEW_NORMAL}"
 }
@@ -53,7 +52,7 @@ echo_message_type_section()
 #==================================================================================================================
 # Echo ("specially formatted") message.
 #==================================================================================================================
-echo_message_type_error()
+echo_message_style_error()
 {
   echo ""
   echo "${TEXT_VIEW_NORMAL_RED}=====================================================================================================================================================${TEXT_VIEW_NORMAL}"
@@ -67,28 +66,28 @@ echo_message_type_error()
 #==================================================================================================================
 echo_message()
 {
-  local typ=$1
+  local msg_style=$1
   local msg="$2"
 
-  case $typ in
+  case $msg_style in
 
-      $msg_type_block)
-        echo_message_type_block "$msg"
+      $msg_style_block)
+        echo_message_style_block "$msg"
         break
         ;;
       
-      $msg_type_section)
-        echo_message_type_section "$msg"
+      $msg_style_section)
+        echo_message_style_section "$msg"
         break
         ;;
 
-      $msg_type_error)
-        echo_message_type_error "$msg"
+      $msg_style_error)
+        echo_message_style_error "$msg"
         break
         ;;
 
       *)
-        echo_message_type_default "$msg"
+        echo_message_style_default "$msg"
         break
       ;;
   esac
