@@ -7,6 +7,9 @@
 . $PWD/../common/messaging/message.sh
 . $PWD/../common/infrastructure/package/package-management.sh
 . $PWD/../php/contenta-download.sh
+. $PWD/../apache2/apache2.sh
+. $PWD/../apache2/site-available.sh
+. $PWD/../contenta/contenta.sh
 
 #==================================================================================================================
 # Helper function - Displays script's supported flags.
@@ -119,9 +122,16 @@ download_contenta -d $SiteDirectory
 # required by the contenta install.
 deploy_contenta_installation_configuration
 
-# Generate apache2 site configuration and deploy file to /etc/apache2/sites-available/
-#cd ../apache2
-#echo "Executing in directory: [$PWD]..."
-#sh ./generate-site-available-config.sh
+# Generate apache2 sites-available site specific configuration file
+apache_generate_site_available_config
+
+# Reload apache server
+apache_server_reload
+
+# Install contenta (using composer)
+contenta_install $SiteDirectory
+
+# Update site owner to www-data
+apache_update_site_owner $SiteDirectory
 
 

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #==================================================================================================================
-# Get the value of a configuration item (as defined in file "site-config.txt")
+# Get the value of a configuration item (as defined in file "site-config.txt").
 #==================================================================================================================
 get_site_config_value()
 {

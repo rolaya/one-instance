@@ -36,7 +36,7 @@ user_input_request()
 }
 
 #==================================================================================================================
-# Request user input (to a prompt). 
+# Request user input (password). 
 # Parameters:
 # $1: The prompt
 # $2: Variable reference (response to user input). 
