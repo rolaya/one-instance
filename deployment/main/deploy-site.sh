@@ -77,10 +77,10 @@ while [ -n "$1" ]; do
 done
 
 # Define global debug masks
-gmask_debug_file_io=00000001
-gmask_debug_deployment=00000002
-gmask_debug_debug=00000004
-gmask_debug_site_config=00000008
+gmask_debug_file_io=0x00000001
+gmask_debug_deployment=0x00000002
+gmask_debug_debug=0x00000004
+gmask_debug_site_config=0x00000008
 
 # Init debug configuration
 init_debug_configuration GlobalDebugConfig
