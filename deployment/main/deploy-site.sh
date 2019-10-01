@@ -3,6 +3,7 @@
 # "Include" scripts which contain (common) functions we are going to use
 . $PWD/site-config.sh
 . $PWD/../common/user_io/user_io.sh
+. $PWD/../common/debug/debug.sh
 . $PWD/../common/file_io/file_io.sh
 . $PWD/../common/messaging/message.sh
 . $PWD/../common/infrastructure/package/package-management.sh
@@ -75,6 +76,19 @@ while [ -n "$1" ]; do
   esac
 done
 
+# Define global debug masks
+gmask_debug_file_io=00000001
+gmask_debug_deployment=00000002
+gmask_debug_debug=00000004
+gmask_debug_site_config=00000008
+
+# Init debug configuration
+init_debug_configuration GlobalDebugConfig
+
+if [ $(($GlobalDebugConfig & $gmask_debug_debug)) -eq $(( $gmask_debug_debug )) ]; then
+  echo "GlobalDebugConfig $GlobalDebugConfig"
+fi
+
 # Gererating drupal/contenta site configuration....
 echo_message $msg_style_block "Generating contenta site configuration information..."
 
@@ -133,5 +147,4 @@ contenta_install $SiteDirectory
 
 # Update site owner to www-data
 apache_update_site_owner $SiteDirectory
-
 

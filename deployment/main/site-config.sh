@@ -14,7 +14,7 @@ get_site_config_value()
   # Set to true to get debug messages
   local debug=true
 
-  if [ $debug = true ]; then
+  if [ $(($GlobalDebugConfig & $gmask_debug_site_config)) -eq $(( $gmask_debug_site_config )) ]; then
     # Display configuration item we are looking for
     echo "Looking for site configuration item: [$1] in file: [$config_file]"
   fi
@@ -41,7 +41,7 @@ get_site_config_value()
     esac
   done < $config_file
 
-  if [ $debug = true ]; then
+  if [ $(($GlobalDebugConfig & $gmask_debug_site_config)) -eq $(( $gmask_debug_site_config )) ]; then
     echo "Item: [$1] value: [$config_value]"
   fi
 
@@ -173,6 +173,9 @@ collect_site_information()
   # Inform user what have done....
   echo_message $msg_style_block "Generated contenta site configuration file [$SITE_CONFIG_FILE]..."
 
-  # Display site's configured values (this is informational only)
-  file_show_key_value_pairs $SITE_CONFIG_FILE "Site configuration file:"
+  if [ $(($GlobalDebugConfig & $gmask_debug_site_config)) -eq $(( $gmask_debug_site_config )) ]; then
+
+    # Display site's configured values (this is informational only)
+    file_show_key_value_pairs $SITE_CONFIG_FILE "Site configuration file:"
+  fi
 }

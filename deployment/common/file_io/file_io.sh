@@ -13,8 +13,11 @@ file_get_key_value()
   local key_name=$2
   local key_value=""
   
-  # Display configuration item we are looking for
-  echo "Looking for item: [$key_name] in file: [$file_name]"
+  if [ $(($GlobalDebugConfig & $gmask_debug_file_io)) -eq $(( $gmask_debug_file_io )) ]; then
+
+    # Display configuration item we are looking for
+    echo "Looking for item: [$key_name] in file: [$file_name]"
+  fi
 
   # The file we created has format field=value, set the delimeter
   IFS="="
