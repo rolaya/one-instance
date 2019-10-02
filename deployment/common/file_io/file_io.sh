@@ -11,9 +11,8 @@ file_get_key_value()
   local key_name=$2
   local key_value=""
   
+  # This is a debugging message (display configuration item we are looking for and file where we are searching)
   if [ $(($GlobalDebugConfig & $gmask_debug_file_io)) -eq $(( $gmask_debug_file_io )) ]; then
-
-    # Display configuration item we are looking for
     echo "Looking for item: [$key_name] in file: [$file_name]"
   fi
 
@@ -23,7 +22,10 @@ file_get_key_value()
   # Read all lines from site configuration file 
   while read f1 f2
   do
-    echo "$f1=$f2"
+    # This is a debugging message
+    if [ $(($GlobalDebugConfig & $gmask_debug_file_io)) -eq $(( $gmask_debug_file_io )) ]; then
+      echo "$f1=$f2"
+    fi
 
     case $f1 in
 
@@ -37,7 +39,10 @@ file_get_key_value()
     esac
   done < $file_name
 
-  echo "Item: [$key_name] value: [$key_value]"
+  # This is a debugging message
+  if [ $(($GlobalDebugConfig & $gmask_debug_file_io)) -eq $(( $gmask_debug_file_io )) ]; then
+    echo "Item: [$key_name] value: [$key_value]"
+  fi
 
   # Update variable reference
   eval $var_reference="'$key_value'" 
@@ -54,7 +59,6 @@ file_show_key_value_pairs()
   # The site configuration contains key=value pairs
   IFS="="
 
-  #echo "$file_info_msg [$file_name]"
   echo_message $msg_style_section "$file_info_msg [$file_name]"
 
   # Process all non-comment lines

@@ -11,9 +11,6 @@ get_site_config_value()
   # For now, we are always using a "generic" file which is re-generated for every deployment.
   local config_file=site-config.txt
 
-  # Set to true to get debug messages
-  local debug=true
-
   if [ $(($GlobalDebugConfig & $gmask_debug_site_config)) -eq $(( $gmask_debug_site_config )) ]; then
     # Display configuration item we are looking for
     echo "Looking for site configuration item: [$1] in file: [$config_file]"
@@ -25,7 +22,7 @@ get_site_config_value()
   # Read all lines from site configuration file
   while read f1 f2
   do
-    if [ $debug = true ]; then
+    if [ $(($GlobalDebugConfig & $gmask_debug_site_config)) -eq $(( $gmask_debug_site_config )) ]; then
       echo "$f1=$f2"
     fi
 
@@ -65,17 +62,17 @@ deploy_contenta_installation_configuration()
 collect_site_information()
 {
   # Acquiring host name and IP address
-  echo_message $msg_style_section "Acquiring this host's name and IP address (requires sudo)..."
+  echo_message $msg_style_section "Acquiring this Host's name and IP address..."
 
   # Get host's IP address (got this from the web... Need to understand better)
-  Site_ServerName=$(sudo ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
+  HOST_IP_ADDRESS=$(sudo ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
 
   # Get the name of the host where this script is executing
   HOST_NAME=$(cat /proc/sys/kernel/hostname)
 
-  # Inform user what we are about to do....
+  # Display hostname and ip address to user (informational)....
   echo_message $msg_style_section "Hostname:   [$HOST_NAME]..."
-  echo_message $msg_style_section "IP address: [$Site_ServerName]..."
+  echo_message $msg_style_section "IP address: [$HOST_IP_ADDRESS]..."
 
   #################################################################################################
   # MariaDB and contenta configuration related information.
@@ -83,10 +80,10 @@ collect_site_information()
 
   # These values are used to generate the .env and .env.local contenta deployment files
   user_input_request "Site Name" "contenta" SiteName
-  user_input_request "Site Email" "admin@$HOST_NAME.com" SiteEmail
+  user_input_request "Site Email" "admin@$HOST_NAME.$SiteName.com" SiteEmail
   user_input_request "Site Account Name" "$USER" AccountName
   user_input_request_password "Site Account Password" AccountPassword
-  user_input_request "Account Email" "$USER@$HOST_NAME.com" UserEmail
+  user_input_request "Account Email" "$USER@$HOST_NAME.$SiteName.com" UserEmail
   user_input_request "Mysql Host Name" "localhost" MysqlHostName
   user_input_request "Mysql Port Number" "3306" MysqlPortNumber
 
@@ -101,7 +98,7 @@ collect_site_information()
   CURRENT_DIR=$PWD
 
   # Create site specific configuration directory (can be deleted anytime after deployment)
-  SITE_CONFIG_DIR=$PWD/../config/generated-site/$HOST_NAME.$Site_ServerName.$SiteName
+  SITE_CONFIG_DIR=$PWD/../config/generated-site/$HOST_NAME.$SiteName
   mkdir -p $SITE_CONFIG_DIR
   cd $SITE_CONFIG_DIR
 
@@ -144,13 +141,16 @@ collect_site_information()
   #################################################################################################
 
   # Get the document root
-  user_input_request "Enter DocumentRoot" "$HOME/proj/www/drupal/contenta/$SiteName" DocumentRoot
+  user_input_request "Document Root" "$HOME/proj/www/drupal/contenta/$SiteName" DocumentRoot
+
+  # Get the server name
+  user_input_request "Server Name" "${HOST_NAME}.${SiteName}" ServerName
 
   # Get the server alias
-  user_input_request "Enter ServerAlias" "${HOST_NAME}.${SiteName}" ServerAlias
+  user_input_request "Server Alias" "www.${HOST_NAME}.${SiteName}" ServerAlias
 
   # Get the directory
-  user_input_request "Enter Site Directory" "$HOME/proj/www/drupal/contenta/$SiteName" SiteDirectory
+  user_input_request "Site Directory" "$HOME/proj/www/drupal/contenta/$SiteName" SiteDirectory
 
   # Generate deployment configuration file (with information acquired from user)
   SITE_CONFIG_FILE="$SITE_CONFIG_DIR/$SiteName.txt"
@@ -159,7 +159,7 @@ collect_site_information()
   # Update deployment configuration file with user entered input (and information gleaned from the running system)
   sed -i "s/site_name/$SiteName/g;             \
           s#document_root#${DocumentRoot}#g;   \
-          s/server_name/$Site_ServerName/g;    \
+          s/server_name/$ServerName/g;    \
           s/server_alias/$ServerAlias/g;       \
           s#site_directory#${SiteDirectory}#g; \
           s/database_name/$DatabaseName/g;     \

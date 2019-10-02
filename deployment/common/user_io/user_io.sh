@@ -9,7 +9,7 @@
 #==================================================================================================================
 user_input_request()
 {
-  # The second passed parameter is the name of the variable we want to update
+  # The third passed parameter is the name of the variable we want to update
   local var_reference=$3
   local var_default_setting=$2 
   

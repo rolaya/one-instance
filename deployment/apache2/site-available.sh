@@ -15,7 +15,7 @@ apache_generate_site_available_config()
   file_get_key_value $FILE "ServerAlias" ServerAlias
   file_get_key_value $FILE "SiteDirectory" SiteDirectory
 
-  # Append /web to DocumentRoot and SiteDirectory
+  # Append /web to DocumentRoot and SiteDirectory (this is where drupal/contenta install process deploys index.php)
   DocumentRootWeb=$DocumentRoot"/web"
   SiteDirectoryWeb=$SiteDirectory"/web"
 
@@ -54,6 +54,9 @@ apache_generate_site_available_config()
   echo_message $msg_style_section "Enabling site with: [$COMMAND]..."
   eval $COMMAND
   cd $CWD
+
+  # Archive the generated sites-available .conf file.
+  mv $APACHE2_SITE $SITE_CONFIG_DIR/.
 
   # This is for debugging purposes
   meld $APACHE2_SITES_AVAILABLE_DIR/$APACHE2_SITE $APACHE_SITE_TEMPLATE

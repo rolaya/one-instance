@@ -82,6 +82,9 @@ gmask_debug_deployment=0x00000002
 gmask_debug_debug=0x00000004
 gmask_debug_site_config=0x00000008
 
+# These are global variables used by misc. functions/scripts.
+SITE_CONFIG_DIR=""
+
 # Init debug configuration
 init_debug_configuration GlobalDebugConfig
 
