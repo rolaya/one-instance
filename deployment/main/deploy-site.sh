@@ -127,10 +127,10 @@ get_site_config_value DatabaseUser
 get_site_config_value SiteDirectory
 
 # Create mariadb database and database user.
-echo_message $msg_style_section "Creating MariaDB database [$DatabaseName] and database user: [$DatabaseUser]..."
+echo_message $msg_style_block "Creating Contenta MariaDB database: [$DatabaseName] and database user: [$DatabaseUser]..."
 
 # Create site database (and grant user permissions to database) rolaya: need to check result of this operation...
-python $HOME/proj/www/Drupal/one-instance/tools/mariadb/init-database-for-contenta-deployment.py -d $DatabaseName -u $DatabaseUser
+python ../mariadb/init-database-for-contenta-deployment.py -d $DatabaseName -u $DatabaseUser
 
 # Download contenta
 download_contenta -d $SiteDirectory
