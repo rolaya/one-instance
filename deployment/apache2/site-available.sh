@@ -59,7 +59,10 @@ apache_generate_site_available_config()
   mv $APACHE2_SITE $SITE_CONFIG_DIR/.
 
   # This is for debugging purposes
-  meld $APACHE2_SITES_AVAILABLE_DIR/$APACHE2_SITE $APACHE_SITE_TEMPLATE
+  if [ $(($GlobalDebugConfig & $gmask_debug_debug)) -eq $(( $gmask_debug_debug )) ]; then
+    # rolaya: use a generic diff tool when meld is not installed.
+    meld $APACHE2_SITES_AVAILABLE_DIR/$APACHE2_SITE $APACHE_SITE_TEMPLATE
+  fi
 }
 
 #==================================================================================================================
