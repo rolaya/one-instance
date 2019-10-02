@@ -38,13 +38,14 @@ TEXT_RESET_ATTR_BLINK="\e[25m"
 TEXT_RESET_ATTR_REVERSE="\e[27m"
 TEXT_RESET_ATTR_HIDDEN="\e[28m"
 
-# Possible message "styles"
+# Possible message "styles" rolaya: split these definitions between styles and levels
 msg_style_default="0"
 msg_style_block="1"
 msg_style_section="2"
-msg_style_warning="3"
-msg_style_error="4"
-msg_style_critical="5"
+msg_style_info="3"
+msg_style_warning="4"
+msg_style_error="5"
+msg_style_critical="6"
 
 #==================================================================================================================
 # Echo ("specially formatted") message.
@@ -89,6 +90,14 @@ echo_message_style_error()
 #==================================================================================================================
 # Echo ("specially formatted") message.
 #==================================================================================================================
+echo_message_style_info()
+{
+  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}-->> $1${TEXT_VIEW_RESET}"
+}
+
+#==================================================================================================================
+# Echo ("specially formatted") message.
+#==================================================================================================================
 echo_message()
 {
   local msg_style=$1
@@ -103,6 +112,11 @@ echo_message()
       
       $msg_style_section)
         echo_message_style_section "$msg"
+        break
+        ;;
+
+      $msg_style_info)
+        echo_message_style_info "$msg"
         break
         ;;
 

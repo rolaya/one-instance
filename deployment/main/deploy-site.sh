@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # "Include" scripts which contain (common) functions we are going to use
+. $PWD/infrastructure.sh
 . $PWD/site-config.sh
 . $PWD/../common/user_io/user_io.sh
 . $PWD/../common/debug/debug.sh
@@ -9,6 +10,7 @@
 . $PWD/../common/infrastructure/package/package-management.sh
 . $PWD/../php/contenta-download.sh
 . $PWD/../apache2/apache2.sh
+. $PWD/../mariadb/mariadb.sh
 . $PWD/../apache2/site-available.sh
 . $PWD/../contenta/contenta.sh
 
@@ -87,6 +89,9 @@ SITE_CONFIG_DIR=""
 
 # Init debug configuration
 init_debug_configuration GlobalDebugConfig
+
+# Check all required packages (e.g. apache2, mariadb, etc)
+check_required_packages
 
 if [ $(($GlobalDebugConfig & $gmask_debug_debug)) -eq $(( $gmask_debug_debug )) ]; then
   echo "GlobalDebugConfig $GlobalDebugConfig"
