@@ -8,7 +8,7 @@ init_debug_configuration()
 
   # Here, we set the global debug mask
   #local config_value=$((${gmask_debug_deployment} | ${gmask_debug_file_io}))
-  local config_value=$((${gmask_debug_deployment}))
+  local config_value=$((${gmask_debug_deployment} | ${gmask_debug_debug}))
 
   # Set to true to get debug messages
   local debug=false

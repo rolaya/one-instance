@@ -42,10 +42,11 @@ TEXT_RESET_ATTR_HIDDEN="\e[28m"
 msg_style_default="0"
 msg_style_block="1"
 msg_style_section="2"
-msg_style_info="3"
-msg_style_warning="4"
-msg_style_error="5"
-msg_style_critical="6"
+msg_style_debug="3"
+msg_style_info="4"
+msg_style_warning="5"
+msg_style_error="6"
+msg_style_critical="7"
 
 #==================================================================================================================
 # Echo ("specially formatted") message.
@@ -90,6 +91,14 @@ echo_message_style_error()
 #==================================================================================================================
 # Echo ("specially formatted") message.
 #==================================================================================================================
+echo_message_style_debug()
+{
+  echo "${TEXT_FG_LIGHT_RED}${TEXT_SET_ATTR_ITALIC}-->> $1${TEXT_VIEW_RESET}"
+}
+
+#==================================================================================================================
+# Echo ("specially formatted") message.
+#==================================================================================================================
 echo_message_style_info()
 {
   echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}-->> $1${TEXT_VIEW_RESET}"
@@ -112,6 +121,11 @@ echo_message()
       
       $msg_style_section)
         echo_message_style_section "$msg"
+        break
+        ;;
+
+      $msg_style_debug)
+        echo_message_style_debug "$msg"
         break
         ;;
 

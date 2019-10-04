@@ -86,13 +86,19 @@ mariadb_install_and_secure()
   local UserResponse
   local prompt_format=${TEXT_FG_LIGHT_BLUE}${TEXT_SET_ATTR_BOLD}${TEXT_SET_ATTR_ITALIC}
 
-  user_input_request_formatted "Installing mariadb-server mariadb-client, continue? (Y/N)" "Y" UserResponse $prompt_format
+  # Prompt for MariaDB server/client install
+  user_input_request_formatted "Install mariadb-server mariadb-client, continue (y/n)?" "y" UserResponse $prompt_format
 
   if [ "$UserResponse" = "y" ] || [ "$UserResponse" = "Y" ]; then
-    # Installs mariadb server/client
-    sudo apt install mariadb-server mariadb-client
 
-    user_input_request_formatted "Securing mariadb install, continue? (Y/N)" "Y" UserResponse $prompt_format
+    # Format mariadb install command
+    COMMAND="sudo apt-get -y install mariadb-server mariadb-client"
+
+    # Install mariadb server/client
+    exec_command "Installing mariadb-server mariadb-client via:" "$COMMAND" COMMAND_OUTPUT
+
+    # Secure MariaDB installation (prompt)
+    user_input_request_formatted "Securing mariadb install, continue? (y/n)?" "y" UserResponse $prompt_format
 
     if [ "$UserResponse" = "y" ] || [ "$UserResponse" = "Y" ]; then
 
@@ -103,7 +109,9 @@ mariadb_install_and_secure()
       #   4. Prompt to remove "test" database
       #   5. Prompt to reload privilege tables
       
-      sudo mysql_secure_installation  
+      sudo mysql_secure_installation
     fi
   fi
+
+  #rolaya: since mariadb is required, check if installed...
 }
