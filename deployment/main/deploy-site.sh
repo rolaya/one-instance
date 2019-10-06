@@ -79,20 +79,8 @@ while [ -n "$1" ]; do
   esac
 done
 
-# Define global debug masks
-gmask_debug_file_io=0x00000001
-gmask_debug_deployment=0x00000002
-gmask_debug_debug=0x00000004
-gmask_debug_site_config=0x00000008
-
-# These are global variables used by misc. functions/scripts.
-SITE_CONFIG_DIR=""
-
 # Init debug configuration
 init_debug_configuration GlobalDebugConfig
-
-# Check all required packages (e.g. apache2, mariadb, etc)
-check_required_packages
 
 if [ $(($GlobalDebugConfig & $gmask_debug_debug)) -eq $(( $gmask_debug_debug )) ]; then
   echo "GlobalDebugConfig $GlobalDebugConfig"
