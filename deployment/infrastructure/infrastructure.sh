@@ -19,13 +19,7 @@ check_package_requirement()
 #==================================================================================================================
 install_package()
 {
-  # Check all parameters passed in command line (if any)
-  while [ -n "$1" ]; do
-
-    echo_message $msg_style_info "Installing package: [$1]..."
-    sudo apt-get install $1
-    shift
-
-  done
+  echo_message $msg_style_info "Installing package: [$1]..."
+  sudo apt-get install $1
 }
 

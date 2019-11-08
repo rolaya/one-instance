@@ -89,7 +89,7 @@ check_package_php()
 #==================================================================================================================
 check_required_packages()
 {
- # check_package_apache2
- # check_package_mariadb
+  check_package_apache2
+  check_package_mariadb
   check_package_php
 }

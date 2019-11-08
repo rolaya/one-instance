@@ -95,7 +95,7 @@ mariadb_install_and_secure()
     COMMAND="sudo apt-get -y install mariadb-server mariadb-client"
 
     # Install mariadb server/client
-    exec_command "Installing mariadb-server mariadb-client via:" "$COMMAND" COMMAND_OUTPUT
+    exec_command "Installing mariadb-server mariadb-client via:" "$COMMAND"
 
     # Secure MariaDB installation (prompt)
     user_input_request_formatted "Securing mariadb install, continue? (y/n)?" "y" UserResponse $prompt_format

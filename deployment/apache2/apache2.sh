@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# This variable holds the value of ...
+exec_command_output=""
+
 #==================================================================================================================
 # 
 #==================================================================================================================
@@ -39,7 +42,7 @@ apache_server_stop()
 apache_get_status()
 {
   local command=""
-  local command_output=""
+  local parsed_command_output=""
   local command_output_length=0
   local var_reference_apache_installed=$1
   local var_reference_apache_active=$2
@@ -52,13 +55,13 @@ apache_get_status()
   command="sudo systemctl status apache2"
 
   # Check apache status
-  exec_command "Checking Apache2 status with:" "$command" command_output
+  exec_command "Checking Apache2 status with:" "$command"
 
   # Grep for apache2.service in output
-  command_output=$(echo $command_output | grep 'apache2.service')
+  parsed_command_output=$(echo $exec_command_output | grep 'apache2.service')
 
   # Apache is installed if we find 'apache2.service' string in output
-  command_output_length=${#command_output}
+  command_output_length=${#parsed_command_output}
 
   if [ $command_output_length -eq 0 ]; then
     eval $var_reference_apache_installed=false
@@ -66,10 +69,10 @@ apache_get_status()
     eval $var_reference_apache_installed=true
 
     # Apache is installed, see if it is active
-    command_output=$(echo $command_output | grep 'running')
+    parsed_command_output=$(echo $exec_command_output | grep 'running')
 
     # Apache is active if we find 'running' string
-    command_output_length=${#command_output}
+    command_output_length=${#parsed_command_output}
   
     if [ $command_output_length -eq 0 ]; then
       eval $var_reference_apache_active=false
@@ -84,12 +87,9 @@ apache_get_status()
 #==============================================================================================================
 apache2_install()
 {
-  local command=""
-  local command_output=""
-
   # Format apache install command
-  command="sudo apt-get -y install apache2"
+  local command="sudo apt-get -y install apache2"
 
   # Install apache2
-  exec_command "Installing Apache2 via:" "$command" command_output
+  exec_command "Installing Apache2 via:" "$command"
 }

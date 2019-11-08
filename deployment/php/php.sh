@@ -50,11 +50,13 @@ php_install()
   # wget must be installed
   check_package_requirement "wget"
 
-  # Installs:
+  # Installs some required packages
   # ca-certificates: Certificate authorities (used for SSL connections authentication)
   # apt-transport-https: Enables the usage of 'deb https://foo distro main' lines
   # lsb-release: Linux Standard Base
-  install_package ca-certificates apt-transport-https lsb-release
+  install_package ca-certificates
+  install_package apt-transport-https
+  install_package lsb-release
 
   # Get the GNU Privacy Guard key (from https://packages.sury.org/php) and
   # save it as /etc/apt/trusted.gpg.d/php.gpg
@@ -68,5 +70,14 @@ php_install()
   sudo apt update
 
   # Install main php7.3 and common extensions (and extensions required for drupal/contenta).
-  install_package php7.3 php7.3-cli php7.3-common php7.3-opcache php7.3-curl php7.3-mbstring php7.3-mysql php7.3-zip php7.3-xml php7.3-gd
+  install_package php7.3
+  install_package php7.3-cli
+  install_package php7.3-common
+  install_package php7.3-opcache
+  install_package php7.3-curl
+  install_package php7.3-mbstring
+  install_package php7.3-mysql
+  install_package php7.3-zip
+  install_package php7.3-xml
+  install_package php7.3-gd
 }
