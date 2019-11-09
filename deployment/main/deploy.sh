@@ -1,7 +1,6 @@
 #!/bin/sh
 
 # "Include" scripts which contain (common) functionality we are going to use
-. $PWD/site-config.sh
 . $PWD/../infrastructure/infrastructure.sh
 . $PWD/../common/user_io/user_io.sh
 . $PWD/../common/debug/debug.sh
