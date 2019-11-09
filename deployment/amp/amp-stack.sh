@@ -3,7 +3,7 @@
 #==================================================================================================================
 # Install AMP (Apache2, MariaDB, PHP) stack. 
 #==================================================================================================================
-install_amp_stack()
+deploy_amp_stack()
 {
    # Init debug configuration
   init_debug_configuration GlobalDebugConfig

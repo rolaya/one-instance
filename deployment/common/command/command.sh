@@ -10,7 +10,7 @@ exec_command()
   exec_command_output=""
 
   # Inform user what we are about to do...
-  echo_message $msg_style_info "$message [$command]..."
+  echo_message $msg_style_info "$message [\"$command\"]..."
 
   # Execute the command (and capture command output on global variable)
   exec_command_output=$(eval $command)
