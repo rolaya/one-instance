@@ -1,7 +1,6 @@
 #!/bin/sh
 
 # "Include" scripts which contain (common) functionality we are going to use
-. $PWD/site-config.sh
 . $PWD/../infrastructure/infrastructure.sh
 . $PWD/../common/user_io/user_io.sh
 . $PWD/../common/debug/debug.sh
@@ -14,6 +13,7 @@
 . $PWD/../mariadb/mariadb.sh
 . $PWD/../apache2/site-available.sh
 . $PWD/../contenta/contenta.sh
+. $PWD/../contenta/site-config.sh
 
 #==================================================================================================================
 # Helper function - Displays script's supported flags.
