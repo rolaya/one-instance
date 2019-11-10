@@ -21,7 +21,7 @@ init_composer_deployment()
   executable_name="composer"
 
   # By default, intall composer to user's bin directory
-  install_directory="$HOME/bin"
+  install_directory="/usr/local/bin"
 
   if [ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]; then
     >&2 echo 'ERROR: Invalid installer signature'
@@ -37,9 +37,6 @@ init_composer_deployment()
 #==================================================================================================================
 deploy_composer()
 {
-  # Create bin directory (under user's home), this is where we will deploy composer.
-  create_directory $HOME/bin
-
   # php and wget must be installed
   check_package_requirement "php"
   check_package_requirement "wget"
@@ -48,7 +45,7 @@ deploy_composer()
   init_composer_deployment
 
   # Format composer install command
-  install_command="php composer-setup.php --install-dir=$install_directory --filename=$executable_name"
+  install_command="sudo php composer-setup.php --install-dir=$install_directory --filename=$executable_name"
 
   exec_command "Installing composer via:" "$install_command"
 }
