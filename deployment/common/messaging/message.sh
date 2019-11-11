@@ -38,15 +38,23 @@ TEXT_RESET_ATTR_BLINK="\e[25m"
 TEXT_RESET_ATTR_REVERSE="\e[27m"
 TEXT_RESET_ATTR_HIDDEN="\e[28m"
 
-# Possible message "styles" rolaya: split these definitions between styles and levels
+# Possible message levels
+msg_level_emerg="0"
+msg_level_alert="1"
+msg_level_critical="2"
+msg_level_error="3"
+msg_level_warning="4"
+msg_level_notice="5"
+msg_level_info="6"
+msg_level_debug="7"
+
+# Possible message styles
 msg_style_default="0"
 msg_style_block="1"
 msg_style_section="2"
 msg_style_debug="3"
 msg_style_info="4"
-msg_style_warning="5"
-msg_style_error="6"
-msg_style_critical="7"
+msg_style_error="5"
 
 #==================================================================================================================
 # Echo ("specially formatted") message.
@@ -109,8 +117,13 @@ echo_message_style_info()
 #==================================================================================================================
 echo_message()
 {
-  local msg_style=$1
-  local msg="$2"
+  #echo "1: $1"
+  #echo "2: $2"
+  #echo "3: $3"
+
+  local msg_level=$1
+  local msg_style=$2
+  local msg="$3"
 
   case $msg_style in
 

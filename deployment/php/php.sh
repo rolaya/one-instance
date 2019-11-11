@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Global identifying version of PHP to install (if no PHP is installed in system)
+PHP_VERSION=php7.3
+
 #==================================================================================================================
 # 
 #==================================================================================================================
@@ -15,7 +18,7 @@ php_get_status()
   # Format command.
   COMMAND="sudo which php"
 
-  echo_message $msg_style_section "Detecting PHP via: [$COMMAND]..."
+  echo_message $msg_level_info $msg_style_section "Detecting PHP via: [$COMMAND]..."
 
   # Run mariadb status command
   COMMAND_OUTPUT=$(eval $COMMAND)
@@ -64,20 +67,20 @@ php_install()
 
   # Create file /etc/apt/sources.list.d/php7.3.list with something like "deb https://packages.sury.org/php/ stretch main".
   # The apt applicaiton will use this source to provide php 7.3 packages, etc.
-  sudo echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php7.3.list
+  sudo echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/$PHP_VERSION.list
 
   # Fetch the package list from the new source
   sudo apt update
 
   # Install main php7.3 and common extensions (and extensions required for drupal/contenta).
-  install_package php7.3
-  install_package php7.3-cli
-  install_package php7.3-common
-  install_package php7.3-opcache
-  install_package php7.3-curl
-  install_package php7.3-mbstring
-  install_package php7.3-mysql
-  install_package php7.3-zip
-  install_package php7.3-xml
-  install_package php7.3-gd
+  install_package $PHP_VERSION
+  install_package $PHP_VERSION-cli
+  install_package $PHP_VERSION-common
+  install_package $PHP_VERSION-opcache
+  install_package $PHP_VERSION-curl
+  install_package $PHP_VERSION-mbstring
+  install_package $PHP_VERSION-mysql
+  install_package $PHP_VERSION-zip
+  install_package $PHP_VERSION-xml
+  install_package $PHP_VERSION-gd
 }

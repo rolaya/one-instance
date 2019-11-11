@@ -17,7 +17,7 @@ show_help()
 download_contenta()
 {
   # Create mariadb database and database user.
-  echo_message $msg_style_section "Downloading contenta to  [$2] directory..."
+  echo_message $msg_level_info $msg_style_section "Downloading contenta to  [$2] directory..."
 
   #rolaya: move this...
   # php must be installed

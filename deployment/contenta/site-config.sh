@@ -51,7 +51,7 @@ get_site_config_value()
 #==================================================================================================================
 deploy_contenta_installation_configuration()
 {
-  echo_message $msg_style_block "Deploying contenta \".env\",  \".env.local\" configuration files to: [$SiteDirectory]"
+  echo_message $msg_level_info $msg_style_block "Deploying contenta \".env\",  \".env.local\" configuration files to: [$SiteDirectory]"
   cp $SITE_CONFIG_DIR/.env $SiteDirectory
   cp $SITE_CONFIG_DIR/.env.local $SiteDirectory
 }
@@ -62,7 +62,7 @@ deploy_contenta_installation_configuration()
 collect_site_information()
 {
   # Acquiring host name and IP address
-  echo_message $msg_style_section "Acquiring this Host's name and IP address..."
+  echo_message $msg_level_info $msg_style_section "Acquiring this Host's name and IP address..."
 
   # Get host's IP address (got this from the web... Need to understand better)
   HOST_IP_ADDRESS=$(sudo ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p')
@@ -71,8 +71,8 @@ collect_site_information()
   HOST_NAME=$(cat /proc/sys/kernel/hostname)
 
   # Display hostname and ip address to user (informational)....
-  echo_message $msg_style_section "Hostname:   [$HOST_NAME]..."
-  echo_message $msg_style_section "IP address: [$HOST_IP_ADDRESS]..."
+  echo_message $msg_level_info $msg_style_section "Hostname:   [$HOST_NAME]..."
+  echo_message $msg_level_info $msg_style_section "IP address: [$HOST_IP_ADDRESS]..."
 
   #################################################################################################
   # MariaDB and contenta configuration related information.
@@ -171,7 +171,7 @@ collect_site_information()
   cp $SITE_CONFIG_FILE $GENERIC_SITE_CONFIG_FILE 
 
   # Inform user what have done....
-  echo_message $msg_style_block "Generated contenta site configuration file [$SITE_CONFIG_FILE]..."
+  echo_message $msg_level_info $msg_style_block "Generated contenta site configuration file [$SITE_CONFIG_FILE]..."
 
   if [ $(($GlobalDebugConfig & $gmask_debug_site_config)) -eq $(( $gmask_debug_site_config )) ]; then
 

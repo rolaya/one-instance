@@ -10,7 +10,7 @@ apache_server_reload()
 {
   # Reload apache2 server.
   COMMAND="sudo systemctl reload apache2"
-  echo_message $msg_style_section "Reloading apache server with: [$COMMAND]..."
+  echo_message $msg_level_info $msg_style_section "Reloading apache server with: [$COMMAND]..."
   eval $COMMAND
 }
 
@@ -21,7 +21,7 @@ apache_server_start()
 {
   # Start apache2 server.
   COMMAND="sudo systemctl start apache2"
-  echo_message $start "Starting apache server with: [$COMMAND]..."
+  echo_message $msg_level_info $msg_style_section  "Starting apache server with: [$COMMAND]..."
   eval $Starting
 }
 
@@ -32,7 +32,7 @@ apache_server_stop()
 {
   # Stop apache2 server.
   COMMAND="sudo systemctl stop apache2"
-  echo_message $msg_style_section "Stopping apache server with: [$COMMAND]..."
+  echo_message $msg_level_info $msg_style_section "Stopping apache server with: [$COMMAND]..."
   eval $COMMAND
 }
 

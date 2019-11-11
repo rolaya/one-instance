@@ -6,7 +6,7 @@
 mariadb_reload()
 {
   COMMAND="sudo systemctl reload mariadb"
-  echo_message $msg_style_section "Reloading MariaDB server with: [$COMMAND]..."
+  echo_message $msg_level_info $msg_style_section "Reloading MariaDB server with: [$COMMAND]..."
   eval $COMMAND
 }
 
@@ -16,7 +16,7 @@ mariadb_reload()
 mariadb_start()
 {
   COMMAND="sudo systemctl start mariadb"
-  echo_message $start "Starting MariaDB server with: [$COMMAND]..."
+  echo_message $msg_level_info $msg_style_section "Starting MariaDB server with: [$COMMAND]..."
   eval $Starting
 }
 
@@ -26,7 +26,7 @@ mariadb_start()
 mariadb_stop()
 {
   COMMAND="sudo systemctl stop mariadb"
-  echo_message $msg_style_section "Stopping MariaDB server with: [$COMMAND]..."
+  echo_message $msg_level_info $msg_style_section "Stopping MariaDB server with: [$COMMAND]..."
   eval $COMMAND
 }
 

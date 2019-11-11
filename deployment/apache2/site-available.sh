@@ -34,13 +34,13 @@ apache_generate_site_available_config()
   #   Directory
   sed -i "s#document_root#$DocumentRootWeb#g; s/server_name/$ServerName/g; s/server_alias/$ServerAlias/g; s#site_directory#$SiteDirectoryWeb#g" "$APACHE2_SITE"
 
-  #echo_message msg_style_section "Configuration for apache2 sites-available configuration file: [$FILE]"
+  #echo_message $msg_level_info msg_style_section "Configuration for apache2 sites-available configuration file: [$FILE]"
 
   # Apache sites-available directory
   APACHE2_SITES_AVAILABLE_DIR="/etc/apache2/sites-available"
 
   # Add the apache site configuration file to the "/etc/apache2/sites-available/" directory.
-  echo_message $msg_style_section "Creating apache2 sites-available configuration file: [$APACHE2_SITES_AVAILABLE_DIR/$APACHE2_SITE]..."
+  echo_message $msg_level_info $msg_style_section "Creating apache2 sites-available configuration file: [$APACHE2_SITES_AVAILABLE_DIR/$APACHE2_SITE]..."
   sudo cp $APACHE2_SITE $APACHE2_SITES_AVAILABLE_DIR/$APACHE2_SITE
 
   # Save CWD (we will return to it...)
@@ -51,7 +51,7 @@ apache_generate_site_available_config()
 
   # Enable site.
   COMMAND="sudo a2ensite $APACHE2_SITE"
-  echo_message $msg_style_section "Enabling site with: [$COMMAND]..."
+  echo_message $msg_level_info $msg_style_section "Enabling site with: [$COMMAND]..."
   eval $COMMAND
   cd $CWD
 
@@ -77,6 +77,6 @@ apache_update_site_owner()
 {
   local site=$1
   local command="sudo chown -R www-data:www-data $site"
-  echo_message $msg_style_section "Updating site ownership with: [$command]..."
+  echo_message $msg_level_info $msg_style_section "Updating site ownership with: [$command]..."
   eval $command
 }

@@ -6,7 +6,7 @@
 check_package_requirement()
 {
   # Inform user we are checking for package
-  echo_message $msg_style_section "Checking for package [$1]..."
+  echo_message $msg_level_info $msg_style_section "Checking for package [$1]..."
 
   if ! [ -x "$(command -v $1)" ]; then
     echo "Error: $1 is not installed." >&2
@@ -19,7 +19,7 @@ check_package_requirement()
 #==================================================================================================================
 install_package()
 {
-  echo_message $msg_style_info "Installing package: [$1]..."
+  echo_message $msg_level_info $msg_style_info "Installing package: [$1]..."
   sudo apt-get install $1
 }
 
@@ -28,7 +28,7 @@ install_package()
 #==================================================================================================================
 create_directory()
 {
-  echo_message $msg_style_info "Creating directory: [$1]..."
+  echo_message $msg_level_info $msg_style_info "Creating directory: [$1]..."
   mkdir -p $1
 }
 
@@ -89,6 +89,6 @@ deploy_mysql_user()
     # Execute mysql queries
     sudo $MYSQL -uroot -p$mysql_root_user_pass -e "$SQL"
 
-    echo_message $msg_style_info "Created mysql user: [${mysql_user}]..."
+    echo_message $msg_level_info $msg_style_info "Created mysql user: [${mysql_user}]..."
   fi
 }

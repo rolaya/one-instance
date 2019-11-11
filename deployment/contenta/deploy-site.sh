@@ -92,7 +92,7 @@ fi
 deploy_contenta_site()
 {
   # Gererating drupal/contenta site configuration....
-  echo_message $msg_style_block "Generating contenta site configuration information..."
+  echo_message $msg_level_info $msg_style_block "Generating contenta site configuration information..."
 
   # Used configuration file for deployment (instead of interactive)
   if [ $use_config_file = false ]; then
@@ -100,7 +100,7 @@ deploy_contenta_site()
     # is written to a number of configuration files which the deployment process/scripts utilize.
     collect_site_information
   else
-    echo_message $msg_style_error "File driven deployment not supported (yet)!"
+    echo_message $msg_level_info $msg_style_error "File driven deployment not supported (yet)!"
     exit 1
   fi
 
@@ -126,7 +126,7 @@ deploy_contenta_site()
   get_site_config_value SiteDirectory
 
   # Create mariadb database and database user.
-  echo_message $msg_style_block "Creating Contenta MariaDB database: [$DatabaseName] and database user: [$DatabaseUser]..."
+  echo_message $msg_level_info $msg_style_block "Creating Contenta MariaDB database: [$DatabaseName] and database user: [$DatabaseUser]..."
 
   # Create site database (and grant user permissions to database) rolaya: need to check result of this operation...
   python ../mariadb/init-database-for-contenta-deployment.py -d $DatabaseName -u $DatabaseUser

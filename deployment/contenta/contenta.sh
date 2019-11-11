@@ -18,6 +18,6 @@ contenta_install()
   cd $site
 
   # Install contenta (via composer)
-  echo_message $msg_style_section "Installing contenta with: [$command]..."
+  echo_message $msg_level_info $msg_style_section "Installing contenta with: [$command]..."
   eval $command
 }
