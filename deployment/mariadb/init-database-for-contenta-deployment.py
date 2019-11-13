@@ -72,7 +72,7 @@ def database_create(connection, dname):
 
     try:
         # Format the database create command
-        sql_command = "CREATE DATABASE " +dname +" CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+        sql_command = "CREATE DATABASE " +"`" +dname +"`" +" CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
         # Get connection cursor and execute SQL
         cursor = connection.cursor()
@@ -112,8 +112,8 @@ def database_grant_permissions(connection, uname, upass, dname):
         cursor = connection.cursor()
 
         # Grant misc. database privileges to user.
-        sql_command = "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES ON " +dname +".* TO '" +uname +"'@'localhost' IDENTIFIED BY '" +upass +"';"
-        sql_command_opaque = "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES ON " +dname +".* TO '" +uname +"'@'localhost' IDENTIFIED BY '" +upass_opaque +"';"
+        sql_command = "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES ON " +"`" +dname +"`" +".* TO '" +uname +"'@'localhost' IDENTIFIED BY '" +upass +"';"
+        sql_command_opaque = "GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES ON " +"`" +dname +"`" +".* TO '" +uname +"'@'localhost' IDENTIFIED BY '" +upass_opaque +"';"
         cursor.execute(sql_command)
         print ("Database [" +dname +"] privileges granted to user [" +uname +"] via:")
         print ("[" +sql_command_opaque +"]")

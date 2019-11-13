@@ -20,7 +20,7 @@ check_package_requirement()
 install_package()
 {
   echo_message $msg_level_info $msg_style_info "Installing package: [$1]..."
-  sudo apt-get install $1
+  sudo apt-get -y install $1
 }
 
 #==================================================================================================================

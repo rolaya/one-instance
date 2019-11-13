@@ -21,6 +21,7 @@
 # Some global varaibles which drive the deployment
 deploy_contenta_site_only=false
 deploy_all=true
+deploy_via_config_file=false
 
 #==================================================================================================================
 # Helper function - Displays script's supported flags.
@@ -55,7 +56,7 @@ while [ -n "$1" ]; do
         exit 1
       else
         # Get the install directory as passed in command line
-        use_config_file=true
+        deploy_via_config_file=true
         site_config_file="$2"
         shift 2
       fi
@@ -91,6 +92,98 @@ while [ -n "$1" ]; do
   esac
 done
 
+level1_item_index=0
+level2_item_index=0
+level3_item_index=0
+
+#==================================================================================================================
+# Generate index for new level1 item
+#==================================================================================================================
+new_level1_item()
+{
+  level1_item_index=$((level1_item_index+1))
+  level2_item_index=0
+}
+
+#==================================================================================================================
+# Generate index for new level2 item
+#==================================================================================================================
+new_level2_item()
+{
+  level2_item_index=$((level2_item_index+1))
+  level3_item_index=0
+}
+
+#==================================================================================================================
+# Generate index for new level3 item
+#==================================================================================================================
+new_level3_item()
+{
+  level3_item_index=$((level3_item_index+1))
+}
+
+#==================================================================================================================
+# Full deployment (AMP, infrastructure, site, etc)
+#==================================================================================================================
+deployment_site_guide()
+{
+  local guide_item
+  local UserResponse
+  local prompt_format=${TEXT_FG_LIGHT_BLUE}${TEXT_SET_ATTR_BOLD}${TEXT_SET_ATTR_ITALIC}
+
+  new_level1_item
+  guide_item="$level1_item_index. Collects Contenta site information"
+  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"  
+
+  new_level2_item
+  guide_item="   $level1_item_index.$level2_item_index. Contenta site name"
+  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"  
+
+  new_level2_item
+  guide_item="   $level1_item_index.$level2_item_index. Contenta site email"
+  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}" 
+
+  new_level2_item
+  guide_item="   $level1_item_index.$level2_item_index. Contenta site account name"
+  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
+
+  new_level2_item
+  guide_item="   $level1_item_index.$level2_item_index. Contenta site account password"
+  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
+
+  new_level2_item
+  guide_item="   $level1_item_index.$level2_item_index. Contenta site account email"
+  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
+
+  new_level2_item
+  guide_item="   $level1_item_index.$level2_item_index. Contenta site database name"
+  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
+
+  new_level2_item
+  guide_item="   $level1_item_index.$level2_item_index. MariaDB user (see **)"
+  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
+
+  new_level2_item
+  guide_item="   $level1_item_index.$level2_item_index. Collects Apache2 site configuration information"
+  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}" 
+
+  new_level3_item
+  guide_item="        $level1_item_index.$level2_item_index.$level3_item_index. Document root"
+  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}" 
+
+  new_level3_item
+  guide_item="        $level1_item_index.$level2_item_index.$level3_item_index. Server Name"
+  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}" 
+
+  new_level3_item
+  guide_item="        $level1_item_index.$level2_item_index.$level3_item_index. Server Alias"
+  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}" 
+
+  new_level3_item
+  guide_item="        $level1_item_index.$level2_item_index.$level3_item_index. Site directory"
+  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
+}
+
 #==================================================================================================================
 # Full deployment (AMP, infrastructure, site, etc)
 #==================================================================================================================
@@ -116,68 +209,40 @@ deployment_full_show_guide()
   echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
   echo ""
 
-	guide_item="1. Installs AMP (Apache, MariaDB PHP) stack"
+  new_level1_item
+	guide_item="$level1_item_index. Installs AMP (Apache, MariaDB PHP) stack"
   echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
 
-  guide_item="   1.1. Apache2 (latest release version)"
+  new_level2_item
+  guide_item="   $level1_item_index.$level2_item_index. Apache2 (latest release version)"
   echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
 
-  guide_item="   1.2. MariaDB server, client (latest release version)"
+  new_level2_item
+  guide_item="   $level1_item_index.$level2_item_index. MariaDB server, client (latest release version)"
   echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
 
-  guide_item="        1.2.1. Secures MariaDB installation (requires MariaDB root user password definition) "
+  new_level3_item
+  guide_item="        $level1_item_index.$level2_item_index.$level3_item_index. Secures MariaDB installation (requires MariaDB root user password definition) "
   echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
 
-  guide_item="   1.3. PHP (version $PHP_VERSION)"
+  new_level2_item
+  guide_item="   $level1_item_index.$level2_item_index. PHP (version $PHP_VERSION)"
   echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
 
-  guide_item="2. Installs Composer (dependency manager for PHP)"
+  new_level1_item
+  guide_item="$level1_item_index. Installs Composer (dependency manager for PHP)"
   echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
 
-  guide_item="3. Installs Python"
+  new_level1_item
+  guide_item="$level1_item_index. Installs Python"
   echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"  
 
-  guide_item="4. Creates MariaDB user with privileges to create contenta site user and database"
+  new_level1_item
+  guide_item="$level1_item_index. Creates MariaDB user with privileges to create contenta site user and database"
   echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}" 
 
-  guide_item="5. Collects Contenta site information"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"  
-
-  guide_item="   5.1. Contenta site name"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"  
-
-  guide_item="   5.2. Contenta site email"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}" 
-
-  guide_item="   5.3. Contenta site account name"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
-
-  guide_item="   5.4. Contenta site account password"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
-
-  guide_item="   5.5. Contenta site account email"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
-
-  guide_item="   5.6. Contenta site database name"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
-
-  guide_item="   5.7. MariaDB user (see **)"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
-
-  guide_item="   5.8. Collects Apache2 related configuration"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}" 
-
-  guide_item="        5.8.1. Document root"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}" 
-
-  guide_item="        5.8.2. Server Name"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}" 
-
-  guide_item="        5.8.3. Server Alias"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}" 
-
-  guide_item="        5.8.4. Site directory"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
+  # Show contenta site deployment guide
+  deployment_site_guide
 
   echo "${TEXT_FG_MAGENTA}=====================================================================================================================================================${TEXT_VIEW_RESET}"
 
@@ -203,48 +268,17 @@ deployment_contenta_site_show_guide()
   guide_item="Contenta deployment "
   echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
   echo ""
-  guide_item="This process collects deployment information from the user and installs Contenta site"
+  guide_item="This process collects site configuration information from the user"
+  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
+  guide_item="and deploys Contenta site using user defined information."
+  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
+  echo ""
+  guide_item="sudo password is required."
   echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
   echo ""
 
-  guide_item="1. Collects Contenta site (to be created) information"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"  
-
-  guide_item="   1.2. Contenta site name"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"  
-
-  guide_item="   1.2. Contenta site email"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}" 
-
-  guide_item="   1.3. Contenta site account name"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
-
-  guide_item="   1.4. Contenta site account password"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
-
-  guide_item="   1.5. Contenta site account email"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
-
-  guide_item="   1.6. Contenta site MariaDB database name"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
-
-  guide_item="   1.7. MariaDB user (see **)"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
-
-  guide_item="   1.8. Collects Apache2 related configuration"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}" 
-
-  guide_item="        1.8.1. Document root"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}" 
-
-  guide_item="        1.8.2. Server Name"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}" 
-
-  guide_item="        1.8.3. Server Alias"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}" 
-
-  guide_item="        1.8.4. Site directory"
-  echo "${TEXT_FG_MAGENTA}${TEXT_SET_ATTR_ITALIC}$guide_item${TEXT_VIEW_RESET}"
+  # Show contenta site deployment guide
+  deployment_site_guide
 
   echo "${TEXT_FG_MAGENTA}=====================================================================================================================================================${TEXT_VIEW_RESET}"
 
@@ -259,31 +293,44 @@ deployment_contenta_site_show_guide()
 #==================================================================================================================
 # 
 #==================================================================================================================
-deployment_show_guide()
+deploy_contenta()
 {
+  # Init debug configuration
+  init_debug_configuration GlobalDebugConfig
+
+  if [ $(($GlobalDebugConfig & $gmask_debug_debug)) -eq $(( $gmask_debug_debug )) ]; then
+    echo "GlobalDebugConfig $GlobalDebugConfig"
+  fi
+
   if [ $deploy_all = true ]; then
+    
+    # Show full (AMP stack, infrastructure, contenta site) deployment guide
     deployment_full_show_guide
+
+    # Install/deploy AMP stack...
+    deploy_amp_stack
+
+    # Deploy composer
+    deploy_composer
+
+    # Deploy python
+    deploy_python
+
+    # Deploy new mysql user (and grant misc. priviledges)
+    deploy_mysql_user
+
   else
+
+    # Show contenta site deployment guide
     deployment_contenta_site_show_guide
   fi
+
+  # Deploy contenta site
+  deploy_contenta_site  
 }
 
-# Show contenta deployment guide
-deployment_show_guide
+# Start contenta deployment
+deploy_contenta
 
-# Install/deploy AMP stack...
-deploy_amp_stack
-
-# Deploy composer
-deploy_composer
-
-# Deploy python
-deploy_python
-
-# Deploy new mysql user (and grant misc. priviledges)
-deploy_mysql_user
-
-# Deploy contenta site
-deploy_contenta_site
 
 

@@ -35,6 +35,9 @@ mariadb_stop()
 #==================================================================================================================
 mariadb_get_status()
 {
+  local command=""
+  local parsed_command_output=""
+  local command_output_length=0
   local var_reference_mariadb_installed=$1
   local var_reference_mariadb_active=$2
 
@@ -43,34 +46,31 @@ mariadb_get_status()
   eval $var_reference_mariadb_active=false
 
   # Check mariadb status.
-  COMMAND="sudo systemctl status mariadb"
+  command="sudo systemctl status mariadb"
   
-  # Run mariadb status command
-  COMMAND_OUTPUT=$(eval $COMMAND)
-
-  #echo $COMMAND_OUTPUT
+  # Check apache status
+  exec_command "Checking MariaDB status via:" "$command"
 
   # Grep for mariadb.service in output
-  COMMAND_OUTPUT=$(echo $COMMAND_OUTPUT | grep 'Status:')
+  parsed_command_output=$(echo $exec_command_output | grep 'Status:')
 
   # MariaDb is installed if we find 'mariadb.service' string in output
-  COMMAND_OUTPUT_LENGTH=${#COMMAND_OUTPUT}
+  command_output_length=${#parsed_command_output}
 
-  if [ $COMMAND_OUTPUT_LENGTH -eq 0 ]; then
+  if [ $command_output_length -eq 0 ]; then
     eval $var_reference_mariadb_installed=false
   else
     eval $var_reference_mariadb_installed=true
 
     # Check mariadb status.
-    COMMAND="pgrep mysqld"
+    command="pgrep mysqld"
   
-    # Run mariadb status command
-    COMMAND_OUTPUT=$(eval $COMMAND)
+    exec_command "Checking if MariaDB server is running via:" "$command"
 
     # MariaDB (mysqld) is active if pgrep returns a PID
-    COMMAND_OUTPUT_LENGTH=${#COMMAND_OUTPUT}
+    command_output_length=${#exec_command_output}
   
-    if [ $COMMAND_OUTPUT_LENGTH -eq 0 ]; then
+    if [ $command_output_length -eq 0 ]; then
       eval $var_reference_mariadb_active=false
     else
       eval $var_reference_mariadb_active=true

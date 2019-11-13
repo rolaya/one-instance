@@ -24,7 +24,7 @@ deploy_contenta_site()
   echo_message $msg_level_info $msg_style_block "Generating contenta site configuration information..."
 
   # Used configuration file for deployment (instead of interactive)
-  if [ $use_config_file = false ]; then
+  if [ $deploy_via_config_file = false ]; then
     # Collect drupal/contenta site information. The information acquired from the user and the running system
     # is written to a number of configuration files which the deployment process/scripts utilize.
     collect_site_information

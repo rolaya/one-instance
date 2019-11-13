@@ -5,15 +5,8 @@
 #==================================================================================================================
 deploy_amp_stack()
 {
-   # Init debug configuration
-  init_debug_configuration GlobalDebugConfig
-
-  if [ $(($GlobalDebugConfig & $gmask_debug_debug)) -eq $(( $gmask_debug_debug )) ]; then
-    echo "GlobalDebugConfig $GlobalDebugConfig"
-  fi
-
   # Gererating drupal/contenta site configuration....
-  echo_message $msg_level_info $msg_style_block "Validating AMP (Apache2, MariaDB, PHP stack)..."
+  echo_message $msg_level_info $msg_style_block "Installing AMP (Apache2, MariaDB, PHP) stack..."
   
   # Check all required packages (e.g. apache2, mariadb, etc)
   check_required_packages
@@ -48,8 +41,6 @@ check_package_mariadb()
   local mariadb_installed=false
   local mariadb_active=false
   
-  echo_message $msg_level_info $msg_style_info "Checking MariaDB status..."
-
    # Check mariadb status
   mariadb_get_status mariadb_installed mariadb_active
 
